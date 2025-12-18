@@ -314,13 +314,13 @@ export function getPolygonName(properties: Polygon['feature']['properties']) {
     properties.COUNTRY ||
     properties.id ||
     properties.ID ||
-    'Untitled Polygon'
+    '未命名多边形'
   )
 }
 
 export function changePolygonName(properties: Polygon['feature']['properties']) {
   // if (typeof polygon.feature.properties.code == 'undefined') {
-  const newName = prompt('New name for polygon: ')
+  const newName = prompt('多边形新名称: ')
   if (typeof newName === 'string' && newName !== '') {
     properties.name = newName
   }

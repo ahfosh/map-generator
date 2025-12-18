@@ -138,7 +138,7 @@ const drawControl = new L.Control.Draw({
       drawError: {
         color: '#e1e100',
         message:
-          '<strong>Polygon draw does not allow intersections!<strong> (allowIntersection: false)',
+          '<strong>多边形绘制不允许交叉！</strong>',
       },
       shapeOptions: { color: '#5d8ce3' },
     },
@@ -154,8 +154,8 @@ async function initMap(el: string) {
     attributionControl: false,
     contextmenu: true,
     contextmenuItems: [
-      { text: 'Copy Coordinates', callback: copyCoords },
-      { text: 'See Nearest Pano', callback: openNearestPano },
+      { text: '复制坐标', callback: copyCoords },
+      { text: '查看最近全景图', callback: openNearestPano },
     ],
     center: [0, 0],
     preferCanvas: true,
@@ -212,7 +212,7 @@ async function initMap(el: string) {
     const event = e as L.DrawEvents.Created
     const polygon = event.layer as Polygon
     polygon.feature = event.layer.toGeoJSON()
-    polygon.feature.properties.name = `Custom polygon ${drawnPolygonsLayer.getLayers().length + 1}`
+    polygon.feature.properties.name = `自定义多边形 ${drawnPolygonsLayer.getLayers().length + 1}`
     initPolygon(polygon)
     polygon.setStyle(polygonStyles.customPolygonStyle())
     polygon.setStyle(polygonStyles.highlighted())
@@ -373,13 +373,13 @@ export interface LayerMeta {
 }
 const availableLayers = ref<LayerMeta[]>([
   {
-    label: 'World Borders',
+    label: '世界边界',
     key: 'world_borders',
     source: '/geojson/world_borders.json',
     visible: true,
   },
   {
-    label: 'Drawn polygons',
+    label: '已绘制多边形',
     key: 'drawn_polygons',
     source: drawnPolygonsLayer,
     visible: true,
@@ -468,7 +468,7 @@ async function importLayer(e: Event) {
     try {
       const json = JSON.parse(result)
       if (!isValidGeoJSON(json)) {
-        throw new Error('Invalid GeoJSON structure.')
+        throw new Error('无效的 GeoJSON 结构')
       }
 
       const meta: LayerMeta = {
@@ -481,7 +481,7 @@ async function importLayer(e: Event) {
       const layer = await loadLayer(meta)
       map.addLayer(layer)
     } catch (e) {
-      alert(`Invalid GeoJSON in "${file.name}"`)
+      alert(`"${file.name}" 中的 GeoJSON 无效`)
       console.error(e)
     }
   }
@@ -564,7 +564,7 @@ function resetHighlight(e: L.LeafletMouseEvent) {
   if (!selected.value.some((x) => x._leaflet_id === polygon._leaflet_id)) {
     polygon.setStyle(polygonStyles.removeHighlight())
   }
-  select.value = 'Select a country or draw a polygon'
+  select.value = '选择国家或绘制多边形'
 }
 
 const polygonStyles = {
