@@ -36,22 +36,22 @@ const defaultSettings = {
       4: true,
     },
     apple: {
-      "bigcam": true,
-      "smallcam": true,
-      "backpack": true
+      bigcam: true,
+      smallcam: true,
+      backpack: true,
     },
     bing: {
       1: true,
       2: true,
       3: true,
       4: true,
-      5: true
+      5: true,
     },
     yandex: {
       1: true,
       2: true,
-      "trekker": false
-    }
+      trekker: false,
+    },
   },
   rejectDateless: true,
   rejectNoDescription: true,
@@ -300,15 +300,8 @@ const defaultSettings = {
     },
   } as TileColorConfig,
 
-  filterByLinksLength: {
-    enabled: false,
-    range: [1, 5],
-  },
-
-  filterByAltitude: {
-    enabled: false,
-    range: [0, 1000],
-  },
+  filterByLinksLength: { enabled: false, range: [1, 5] },
+  filterByAltitude: { enabled: false, range: [0, 1000] },
 
   getCurve: false,
   minCurveAngle: 10,
