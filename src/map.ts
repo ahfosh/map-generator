@@ -64,21 +64,25 @@ const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
     '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 })
 
-const bingMapsLayer=L.layerGroup([bingBaseLayer, bingTerrainLayer])
+const bingMapsLayer = L.layerGroup([bingBaseLayer, bingTerrainLayer])
 
-const petalMapsLayer = L.tileLayer("https://maprastertile-drcn.dbankcdn.cn/display-service/v1/online-render/getTile/24.12.10.10/{z}/{x}/{y}/?language=en&p=46&scale=2&mapType=ROADMAP&presetStyleId=standard&pattern=JPG&key=DAEDANitav6P7Q0lWzCzKkLErbrJG4kS1u%2FCpEe5ZyxW5u0nSkb40bJ%2BYAugRN03fhf0BszLS1rCrzAogRHDZkxaMrloaHPQGO6LNg==",
-  { maxZoom: 20 }
+const petalMapsLayer = L.tileLayer(
+  'https://maprastertile-drcn.dbankcdn.cn/display-service/v1/online-render/getTile/24.12.10.10/{z}/{x}/{y}/?language=en&p=46&scale=2&mapType=ROADMAP&presetStyleId=standard&pattern=JPG&key=DAEDANitav6P7Q0lWzCzKkLErbrJG4kS1u%2FCpEe5ZyxW5u0nSkb40bJ%2BYAugRN03fhf0BszLS1rCrzAogRHDZkxaMrloaHPQGO6LNg==',
+  { maxZoom: 20 },
 )
 
-const tencentBaseLayer = L.tileLayer("http://rt{s}.map.gtimg.com/realtimerender?z={z}&x={x}&y={-y}&type=vector", { subdomains: ["0", "1", "2", "3"], minNativeZoom: 3, minZoom: 1 })
+const tencentBaseLayer = L.tileLayer(
+  'http://rt{s}.map.gtimg.com/realtimerender?z={z}&x={x}&y={-y}&type=vector',
+  { subdomains: ['0', '1', '2', '3'], minNativeZoom: 3, minZoom: 1 },
+)
 
 const gsvLayer = L.tileLayer(
   'https://www.google.com/maps/vt?pb=!1m7!8m6!1m3!1i{z}!2i{x}!3i{y}!2i9!3x1!2m8!1e2!2ssvv!4m2!1scc!2s*211m3*211e2*212b1*213e2*211m3*211e3*212b1*213e2*212b1*214b1!4m2!1ssvl!2s*211b0*212b1!3m8!2sen!3sus!5e1105!12m4!1e68!2m2!1sset!2sRoadmap!4e0!5m4!1e0!8m2!1e1!1e1!6m6!1e12!2i2!11e0!39b0!44e0!50e0',
-  { maxZoom: 20 }
+  { maxZoom: 20 },
 )
 const gsvLayer2 = L.tileLayer(
   'https://www.google.com/maps/vt?pb=!1m7!8m6!1m3!1i{z}!2i{x}!3i{y}!2i9!3x1!2m8!1e2!2ssvv!4m2!1scc!2s*211m3*211e2*212b1*213e2*212b1*214b1!4m2!1ssvl!2s*211b0*212b1!3m8!2sen!3sus!5e1105!12m4!1e68!2m2!1sset!2sRoadmap!4e0!5m4!1e0!8m2!1e1!1e1!6m6!1e12!2i2!11e0!39b0!44e0!50e0',
-  { maxZoom: 20 }
+  { maxZoom: 20 },
 )
 const gsvLayer3 = L.tileLayer(
   'https://maps.googleapis.com/maps/vt?pb=!1m5!1m4!1i{z}!2i{x}!3i{y}!4i256!2m8!1e2!2ssvv!4m2!1scb_client!2sapiv3!4m2!1scc!2s*211m3*211e3*212b1*213e2*211m3*211e2*212b1*213e2!3m3!3sUS!12m1!1e68!4e0',
@@ -86,43 +90,42 @@ const gsvLayer3 = L.tileLayer(
 )
 const gsvLayer4 = L.tileLayer(
   'https://www.google.com/maps/vt?pb=!1m7!8m6!1m3!1i{z}!2i{x}!3i{y}!2i9!3x1!2m8!1e2!2ssvv!4m2!1scc!2s*211m3*211e3*212b1*213e2*212b1*214b1!4m2!1ssvl!2s*211b0*212b1!3m8!2sen!3sus!5e1105!12m4!1e68!2m2!1sset!2sRoadmap!4e0!5m4!1e0!8m2!1e1!1e1!6m6!1e12!2i2!11e0!39b0!44e0!50e0',
-  { maxZoom: 20 }
+  { maxZoom: 20 },
 )
 
-const appleCoverageLayer = L.tileLayer('https://lookmap.eu.pythonanywhere.com/bluelines_raster_2x/{z}/{x}/{y}.png', { minZoom: 1, maxZoom: 7 })
+const appleCoverageLayer = L.tileLayer(
+  'https://lookmap.eu.pythonanywhere.com/bluelines_raster_2x/{z}/{x}/{y}.png',
+  { minZoom: 1, maxZoom: 7 },
+)
 
-const baiduCoverageLayer = new BaiduLayer({ filter: "hue-rotate(140deg) saturate(200%)" })
+const baiduCoverageLayer = new BaiduLayer({ filter: 'hue-rotate(140deg) saturate(200%)' })
 
 const yandexCoverageLayer = new YandexLayer()
 
-
 const baseMaps = {
-  "Google Roadmap": roadmapLayer,
-  "Google Satellite": satelliteLayer,
-  "Google Terrain": terrainLayer,
-  OSM: osmLayer,
-  Bing: bingMapsLayer,
-  Tencent: tencentBaseLayer,
-  Petal: petalMapsLayer,
+  谷歌默认: roadmapLayer,
+  谷歌卫星: satelliteLayer,
+  谷歌地形: terrainLayer,
+  OSM街道: osmLayer,
+  必应: bingMapsLayer,
+  腾讯: tencentBaseLayer,
+  百度: petalMapsLayer,
 }
 
 const overlayMaps = {
-  'Google Street View': gsvLayer,
-  'Google Street View Official Only': gsvLayer2,
-  'Google Street View Roads (Only Works at Zoom Level 12+)': gsvLayer3,
-  'Google Unofficial coverage only': gsvLayer4,
-  'Apple Look Around': appleCoverageLayer,
-  'Apple Look Around (Only Works at Zoom Level 8+)':AppleLayer,
-  'Bing Streetside': bingStreetideLayer,
-  'Yandex Panorama (Only Works at Zoom Level 6+)': yandexCoverageLayer,
-  'Tencent Street View (Only Works at Zoom Level 5+)': TencentCoverageLayer,
-  'Baidu Street View (Only Works at Zoom Level 5+)': baiduCoverageLayer,
+  谷歌街景: gsvLayer,
+  '谷歌街景（仅官方）': gsvLayer2,
+  '谷歌街景道路（仅在缩放级别12+有效）': gsvLayer3,
+  谷歌非官方覆盖: gsvLayer4,
+  苹果环视: appleCoverageLayer,
+  '苹果环视（仅在缩放级别8+有效）': AppleLayer,
+  必应街景: bingStreetideLayer,
+  'Yandex全景（仅在缩放级别6+有效）': yandexCoverageLayer,
+  '腾讯街景（仅在缩放级别5+有效）': TencentCoverageLayer,
+  '百度街景（仅在缩放级别5+有效）': baiduCoverageLayer,
 }
 
-const allLayers = [
-  ...Object.values(baseMaps),
-  ...Object.values(overlayMaps)
-]
+const allLayers = [...Object.values(baseMaps), ...Object.values(overlayMaps)]
 
 const drawnPolygonsLayer = new L.GeoJSON()
 
@@ -137,8 +140,7 @@ const drawControl = new L.Control.Draw({
       allowIntersection: false,
       drawError: {
         color: '#e1e100',
-        message:
-          '<strong>多边形绘制不允许交叉！</strong>',
+        message: '<strong>多边形绘制不允许交叉！</strong>',
       },
       shapeOptions: { color: '#5d8ce3' },
     },
@@ -271,37 +273,32 @@ async function initMap(el: string) {
 
 function toggleMap(provider: string) {
   function resetLayer() {
-    allLayers.forEach(layer => {
+    allLayers.forEach((layer) => {
       if (map.hasLayer(layer)) {
-        map.removeLayer(layer);
+        map.removeLayer(layer)
       }
-    });
+    })
   }
   if (provider === 'google') {
     resetLayer()
     roadmapLayer.addTo(map)
     gsvLayer2.addTo(map)
-  }
-  else if (provider === 'apple') {
+  } else if (provider === 'apple') {
     appleCoverageLayer.addTo(map)
     AppleLayer.addTo(map)
-  }
-  else if (provider === 'bing') {
+  } else if (provider === 'bing') {
     resetLayer()
     bingMapsLayer.addTo(map)
     bingStreetideLayer.addTo(map)
-  }
-  else if (provider === 'tencent') {
+  } else if (provider === 'tencent') {
     resetLayer()
     tencentBaseLayer.addTo(map)
     TencentCoverageLayer.addTo(map)
-  }
-  else if (provider === 'baidu') {
+  } else if (provider === 'baidu') {
     resetLayer()
     petalMapsLayer.addTo(map)
     baiduCoverageLayer.addTo(map)
-  }
-  else if (provider === 'yandex') {
+  } else if (provider === 'yandex') {
     yandexCoverageLayer.addTo(map)
   }
 }
@@ -342,8 +339,8 @@ const storedLayers = useStorage<{
   base: BaseMapName
   overlays: OverlayMapName[]
 }>('map_generator__layers', {
-  base: 'Google Roadmap',
-  overlays: ['Google Street View Official Only'],
+  base: '谷歌路线图',
+  overlays: ['谷歌街景（仅官方）'],
 })
 
 const baseLayerToName = new Map<L.Layer, string>()
@@ -493,7 +490,7 @@ function exportLayer(l: LayerMeta) {
 
   const dataUri =
     'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(layer.toGeoJSON()))
-  const fileName = l.label ?? 'Custom Layer'
+  const fileName = l.label ?? '自定义图层'
   const linkElement = document.createElement('a')
   linkElement.href = dataUri
   linkElement.download = fileName
