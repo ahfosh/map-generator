@@ -193,17 +193,17 @@
           class="relative cursor-pointer"
           @click="panels.generatorSettings = !panels.generatorSettings"
         >
-          <h2>生成器设置</h2>
+          <h2>生成设置</h2>
           <ChevronDownIcon class="collapsible-indicator absolute top-0 right-0" />
         </div>
 
         <Collapsible :is-open="panels.generatorSettings" class="mt-1 p-1 pr-2">
           <div class="flex items-center justify-between ml-1 mr-1">
-            提供商:
+            街景服务:
             <select v-model="settings.provider" @change="toggleMap(settings.provider)">
-              <option value="google">Google</option>
-              <option value="apple">Apple</option>
-              <option value="bing">Bing</option>
+              <option value="google">谷歌</option>
+              <option value="apple">苹果</option>
+              <option value="bing">必应</option>
               <option value="yandex">Yandex</option>
               <option value="tencent">腾讯</option>
               <option value="baidu">百度</option>
@@ -211,7 +211,7 @@
             </select>
           </div>
           <div class="flex justify-between">
-            生成器数量:
+            线程数:
             <div class="flex items-center gap-4">
               <input
                 type="number"
@@ -241,7 +241,7 @@
                 max="1000"
                 @change="handleSpeedInput"
               />
-              次尝试
+              每次
             </span>
           </div>
 
@@ -253,17 +253,17 @@
             </span>
           </div>
 
-          <Checkbox v-model="settings.oneCountryAtATime"> 每次只检查一个国家/多边形 </Checkbox>
+          <Checkbox v-model="settings.oneCountryAtATime">每次只检查一个国家/多边形</Checkbox>
 
           <Checkbox
             v-model="settings.onlyCheckBlueLines"
-            title="可显著加快稀疏覆盖区域的生成速度。如果只在覆盖非常密集的区域生成位置，可能会产生负面影响。（仅限官方覆盖）"
+            title="仅限官方覆盖。可显著加快稀疏覆盖区域的生成速度。但如果只在覆盖非常密集的区域生成位置，可能会产生负面影响。"
           >
             仅检查有蓝线的区域
           </Checkbox>
 
           <div v-if="!settings.rejectOfficial">
-            <Checkbox v-model="settings.findRegions">位置间最小距离</Checkbox>
+            <Checkbox v-model="settings.findRegions">两点间最小距离</Checkbox>
             <div v-if="settings.findRegions" class="ml-6">
               <input type="number" v-model.number="settings.regionRadius" /> <span> 公里 </span>
             </div>
@@ -281,44 +281,40 @@
         </div>
         <div class="flex-1 min-h-0 overflow-y-auto">
           <Collapsible :is-open="panels.coverageSettings" class="p-1">
-            <Checkbox v-if="!settings.rejectOfficial" v-model="settings.rejectUnofficial"
-              >排除非官方</Checkbox
-            >
+            <Checkbox v-if="!settings.rejectOfficial" v-model="settings.rejectUnofficial">
+              排除非官方
+            </Checkbox>
 
-            <Checkbox v-model="settings.rejectOfficial">查找非官方覆盖</Checkbox>
-            <Checkbox v-if="settings.rejectOfficial" v-model="settings.findPhotospheres"
-              >仅查找光球</Checkbox
-            >
-            <Checkbox v-if="settings.rejectOfficial" v-model="settings.findDrones"
-              >仅查找无人机光球</Checkbox
-            >
+            <Checkbox v-model="settings.rejectOfficial">查找非官方</Checkbox>
+            <Checkbox v-if="settings.rejectOfficial" v-model="settings.findPhotospheres">
+              仅查找蓝点
+            </Checkbox>
+            <Checkbox v-if="settings.rejectOfficial" v-model="settings.findDrones">
+              仅查找航拍
+            </Checkbox>
 
             <div v-if="settings.rejectUnofficial && !settings.rejectOfficial">
-              <Checkbox v-model="settings.rejectDateless">排除无日期位置</Checkbox>
-
+              <Checkbox v-model="settings.rejectDateless">排除无日期</Checkbox>
               <Checkbox v-if="!settings.rejectDescription" v-model="settings.rejectNoDescription">
-                排除无描述位置
+                排除无详情
               </Checkbox>
-
-              <Checkbox v-if="settings.provider === 'google'" v-model="settings.ignoreBadcam"
-                >忽略 BadCam</Checkbox
-              >
-              <Checkbox v-model="settings.rejectDescription">查找徒步覆盖</Checkbox>
-
+              <Checkbox v-if="settings.provider === 'google'" v-model="settings.ignoreBadcam">
+                排除BadCam
+              </Checkbox>
+              <Checkbox v-model="settings.rejectDescription">查找徒步者</Checkbox>
               <Checkbox v-model="settings.findNightCoverage" v-if="settings.provider === 'tencent'">
-                查找夜间覆盖
+                查找夜景
               </Checkbox>
-
               <Checkbox
                 v-model="settings.onlyOneInTimeframe"
                 title="仅允许时间范围内附近没有其他覆盖的位置"
               >
-                每位置仅一个全景图
+                每点仅一张全景
               </Checkbox>
 
-              <Checkbox v-model="settings.checkLinks">检查关联全景图</Checkbox>
+              <Checkbox v-model="settings.checkLinks">检查关联全景</Checkbox>
               <div v-if="settings.checkLinks" class="flex items-center justify-between ml-6">
-                深度:
+                查找深度:
                 <div class="flex items-center gap-2">
                   {{ settings.linksDepth }}
                   <input type="range" v-model.number="settings.linksDepth" min="1" max="10" />
@@ -328,8 +324,9 @@
               <Checkbox
                 v-model="settings.findByGeneration.enabled"
                 v-if="['google', 'apple', 'bing', 'yandex'].includes(settings.provider)"
-                >按代查找</Checkbox
               >
+                按代数查找
+              </Checkbox>
               <div
                 v-if="settings.findByGeneration.enabled && settings.provider === 'google'"
                 class="ml-6"
@@ -347,7 +344,7 @@
               >
                 <Checkbox v-model="settings.findByGeneration.apple.bigcam">大相机</Checkbox>
                 <Checkbox v-model="settings.findByGeneration.apple.smallcam">小相机</Checkbox>
-                <Checkbox v-model="settings.findByGeneration.apple.backpack">背包</Checkbox>
+                <Checkbox v-model="settings.findByGeneration.apple.backpack">背包客</Checkbox>
               </div>
               <div
                 v-if="settings.findByGeneration.enabled && settings.provider === 'bing'"
@@ -368,11 +365,11 @@
 
             <div v-if="!settings.selectMonths" class="flex flex-col gap-0.5">
               <div class="flex justify-between">
-                从:
+                早到:
                 <input type="month" v-model="settings.fromDate" min="2007-01" :max="currentDate" />
               </div>
               <div class="flex justify-between">
-                到:
+                晚至:
                 <input type="month" v-model="settings.toDate" min="2007-01" :max="currentDate" />
               </div>
             </div>
@@ -486,9 +483,7 @@
         <div class="flex-1 min-h-0 overflow-y-auto">
           <Collapsible :is-open="panels.mapMakingSettings" class="p-1">
             <div class="flex items-center gap-1 relative">
-              <Checkbox v-model="settings.searchInDescription.enabled"
-                >在全景图描述中搜索
-              </Checkbox>
+              <Checkbox v-model="settings.searchInDescription.enabled">在全景详情中搜索</Checkbox>
               <Tooltip>
                 描述通常基于您的语言环境。<br />
                 可以输入多个搜索词，用逗号分隔。
@@ -600,7 +595,7 @@
               </div>
             </div>
 
-            <Checkbox v-model="settings.filterByLinksLength.enabled"> 按链接长度筛选 </Checkbox>
+            <Checkbox v-model="settings.filterByLinksLength.enabled">按链接长度筛选</Checkbox>
             <div v-if="settings.filterByLinksLength.enabled" class="ml-6">
               <label class="flex items-center justify-between">
                 <div class="flex items-center gap-1 relative">
@@ -625,8 +620,8 @@
               v-if="['apple', 'bing', 'baidu', 'google'].includes(settings.provider)"
               v-model="settings.filterByAltitude.enabled"
             >
-              按海拔筛选</Checkbox
-            >
+              按海拔筛选
+            </Checkbox>
             <div v-if="settings.filterByAltitude.enabled" class="ml-6">
               <label class="flex items-center justify-between">
                 <div class="flex items-center gap-1 relative">米</div>
@@ -645,7 +640,7 @@
               </label>
             </div>
 
-            <Checkbox v-model="settings.getCurve"> 查找弯道位置 </Checkbox>
+            <Checkbox v-model="settings.getCurve">查找弯道位置</Checkbox>
 
             <label v-if="settings.getCurve" class="ml-6 flex items-center justify-between">
               最小弯道角度 ({{ settings.minCurveAngle }}°)
@@ -708,9 +703,13 @@
                 class="w-32 pr-2"
               />
             </div>
-            <Checkbox v-if="settings.zoom.adjust" v-model="settings.zoom.randomInRange" class="ml-6"
-              >范围内随机</Checkbox
+            <Checkbox
+              v-if="settings.zoom.adjust"
+              v-model="settings.zoom.randomInRange"
+              class="ml-6"
             >
+              范围内随机
+            </Checkbox>
           </Collapsible>
         </div>
       </div>
@@ -826,7 +825,7 @@ import {
 } from '@/map'
 
 import { blueLineDetector } from '@/composables/blueLineDetector'
-import { getTileUrl, getTileColorPresence } from '@/composables/tileColorDetector'
+import { getTileColorPresence } from '@/composables/tileColorDetector'
 import {
   sendNotification,
   randomPointInPoly,
@@ -839,14 +838,12 @@ import {
   searchInDescription,
   getCurrentDate,
   parseDate,
-  extractDateFromPanoId,
   isDate,
   randomInRange,
   distanceBetween,
   readFileAsText,
   getPolygonName,
   changePolygonName,
-  tencentToGcj02,
 } from '@/composables/utils.ts'
 import StreetViewProviders from './providers'
 const { currentDate } = getCurrentDate()
@@ -1112,7 +1109,7 @@ async function getLoc(loc: LatLng, polygon: Polygon) {
       }
 
       if (settings.filterByMinutes.enabled && settings.provider != 'google') {
-        var panoMinutes
+        let panoMinutes
         switch (settings.provider) {
           case 'baidu':
             panoMinutes =
@@ -1638,7 +1635,7 @@ async function importLocations(e: Event, polygon: Polygon) {
           throw Error
         }
       } catch (e) {
-        alert('无效的 JSON')
+        alert('无效的边界 JSON')
         console.error(e)
       }
 
@@ -1653,13 +1650,13 @@ async function importLocations(e: Event, polygon: Polygon) {
         addLocation(location, polygon, icons.gen4, settings.markersOnImport)
       }
     } else {
-      alert('未知文件类型: ' + file.type + '。只能导入 JSON 文件')
+      alert('未知文件类型: ' + file.type + '。只能导入边界 JSON 文件')
     }
   }
 }
 
 async function changeLocationsCap() {
-  const input = prompt('您想将位置上限设置为多少？')
+  const input = prompt('您想将生成上限设置为多少个点？')
   if (input === null) return
   const newCap = Math.abs(parseInt(input))
   if (isNaN(newCap)) return
@@ -1685,7 +1682,7 @@ function handleRadiusInput(e: Event) {
 
 window.onbeforeunload = function () {
   if (totalLocs.value > 0) {
-    return '您确定要停止生成器吗？'
+    return '您确定要停止生成吗？'
   }
 }
 
